@@ -1,8 +1,10 @@
 #!/bin/bash
 #
+BINPATH=$(which "$0")
+CURDIR=$(dirname $BINPATH)
 FONT=$1
 
-./ttf2sfd.pe $FONT
+$CURDIR/ttf2sfd.pe $FONT
 
 LIST=$(grep Encoding $FONT.sfd | sed '1d' | cut -f2 -d' ')
 printf $LIST
@@ -19,6 +21,7 @@ for num in $LIST; do
         char=$(printf "\\\\U%x" $num)
         printf $char
     fi
+    printf " "
     printf $char | convert -font $FONT -background white -fill black -pointsize 300 label:@- $OUTPUT/$FONT-$num.png
     FROM=$((FROM+1))
 done
