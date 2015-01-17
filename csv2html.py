@@ -14,7 +14,7 @@ if len(sys.argv) < 3:
     exit(1)
 
 # Open the CSV file for reading
-reader = csv.reader(open(sys.argv[1]))
+reader = csv.reader(open(sys.argv[1]),delimiter=',',quotechar='"',skipinitialspace=True)
 
 # Create the HTML file for output
 htmlfile = open(sys.argv[2],"w")
@@ -35,6 +35,18 @@ for row in reader: # Read a single row from the CSV file
 
     htmlfile.write('<tr>')    
     for column in row:
+        htmlfile.write('<td><br/></td>')
+    htmlfile.write('</tr>')
+    htmlfile.write("\n")
+
+    htmlfile.write('<tr>')    
+    for column in row:
+        htmlfile.write('<td><img src="all-fonts/' + column + '" height="120px" width="120px" /></td>')
+    htmlfile.write('</tr>')
+    htmlfile.write("\n")
+    
+    htmlfile.write('<tr>')    
+    for column in row:
         uni_dec_str = column.split('.ttf-')[1].split('.png')[0]
         font_name = column.split('.ttf-')[0]
         uni_dec = int(uni_dec_str)
@@ -46,20 +58,6 @@ for row in reader: # Read a single row from the CSV file
         htmlfile.write('<td align="center">' + font_name + ':' + "<br/>" + uni_hex + '</td>')
     htmlfile.write('</tr>')
     htmlfile.write("\n")
-
-    htmlfile.write('<tr>')    
-    for column in row:
-        htmlfile.write('<td><img src="' + column + '" height="120px" width="120px" /></td>')
-    htmlfile.write('</tr>')
-    htmlfile.write("\n")
-    
-    htmlfile.write('<tr>')    
-    for column in row:
-        htmlfile.write('<td><br/></td>')
-    htmlfile.write('</tr>')
-    htmlfile.write("\n")
-
-
 
     #increment row count    
     rownum += 1
